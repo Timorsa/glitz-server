@@ -1,5 +1,5 @@
-import { model, Schema } from 'mongoose';
-import { roleTypes } from '../config/constants';
+const { model, Schema } = require('mongoose');
+const { roleTypes } = require('../config/constants');
 
 // defining the schema object
 const schema = {
@@ -32,8 +32,8 @@ const schema = {
 }
 
 // initialize the user schema to user collection
-const user_schema = new Schema(schema, { collection: 'user' });
+const user_schema = new Schema(schema, { collection: 'users' });
 // initialize user model 
 const User = model('user', user_schema);
 
-export default User;
+module.exports = User;
