@@ -73,6 +73,8 @@ module.exports = {
             if (!isMatch)
                 return res.status(403).json({ error: 'Wrong Credentials, Please Try Again' });
 
+            user.lastTimeOnline = Date.now();
+            await user.save();
             const payload = {
                 user: {
                     _id: user._id,
