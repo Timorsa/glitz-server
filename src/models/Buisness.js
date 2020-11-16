@@ -1,10 +1,6 @@
 import { Schema, model } from 'monsgoose';
 
-type Address = {
-    street: String,
-    city: String,
-    number: Number
-}
+
 
 const schema = {
     name: {
@@ -25,10 +21,7 @@ const schema = {
         number: Number
     },
     location: {
-
-
+        latitude: Number,
+        longitude: Number
     }
-
-
-
 }
