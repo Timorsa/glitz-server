@@ -25,6 +25,10 @@ const schema = {
     billed: {
         type: Boolean,
         default: false
+    },
+    data: {
+        type: Date,
+        default: Date.now()
     }
 }
 const invoice_schema = new Schema(schema, { collection: 'invoices' });
