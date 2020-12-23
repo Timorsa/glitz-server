@@ -26,7 +26,7 @@ const post_schema = new Schema(schema, { collation: 'posts' });
 
 const Post = model('post', post_schema);
 
-
+module.exports = Post;
 
 
 

@@ -13,6 +13,10 @@ const schema = {
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        require: true
+    },
     phone: {
         type: String,
         required: true
@@ -25,10 +29,6 @@ const schema = {
     location: {
         latitude: Number,
         longitude: Number
-    },
-    owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
     },
     services: {
         type: [Schema.Types.ObjectId],
@@ -46,6 +46,11 @@ const schema = {
     costumers: {
         type: [Schema.Types.ObjectId],
         ref: 'user',
+        unique: true
+    },
+    reviews: {
+        type: [Schema.Types.ObjectId],
+        ref: 'review',
         unique: true
     }
 }
