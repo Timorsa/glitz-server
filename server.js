@@ -19,15 +19,13 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 // passport config 
-// require('./src/config/passport')(passport)
+require('./src/config/passport')(passport)
 
-//* use Routes
+
 app.use("/api/user", userRoute);
-
-// error handler
 app.use(errorHandler);
 
 
