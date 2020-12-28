@@ -1,11 +1,12 @@
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 // model 
 const User = require('../models/User')
 
-// hashing key
+// hashing key  
 const SECRET_KEY = require('../config/keys').secretKey
+const { cleanEmptyKeys } = require('../utils/general');
 
 module.exports = {
     async signUp(req, res, next) {
@@ -27,7 +28,6 @@ module.exports = {
                 password,
                 firstName,
                 lastName,
-                role
             });
             // hash passwords
             const salt = await bcrypt.genSalt(10);
@@ -81,12 +81,12 @@ module.exports = {
                     email: user.email,
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    role: user.role
                 }
             }
 
             jwt.sign(payload, SECRET_KEY, {
                 expiresIn: 360000
+                //  
             }, (err, token) => {
                 if (err) throw err;
                 res.status(200).json({ token });
@@ -96,6 +96,19 @@ module.exports = {
             next({
                 status: 500,
                 message: 'Oops! something went wrong, failed to sign-in'
+            })
+        }
+    },
+    async update(req, res, next) {
+        try {
+            const updatedUser = await User.updateOne({ _id: req.user._id }, {
+                $set: { ...cleanEmptyKeys(req.body) }
+            });
+            res.status(200).json(updatedUser);
+        } catch (err) {
+            next({
+                status: 500,
+                message: err
             })
         }
     }

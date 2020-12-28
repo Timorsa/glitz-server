@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-// defining the schema object
 const schema = {
     name: {
         type: String,
@@ -9,11 +8,9 @@ const schema = {
     },
 };
 
-// initialize the tag schema attach to tag collection
 const tagSchema = new Schema(schema, { collection: "tags" });
 
-
-//findOrCreate
+//findOrCreate method
 tagSchema.statics.findOrCreate = async (conditions) => {
     let document = await Tag.findOne(conditions);
     return document || (await new Tag({ ...conditions }).save());

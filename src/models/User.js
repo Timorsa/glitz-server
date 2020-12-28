@@ -1,5 +1,4 @@
 const { model, Schema } = require('mongoose');
-const { roleTypes } = require('../config/constants');
 
 // defining the schema object
 const schema = {
@@ -19,11 +18,6 @@ const schema = {
     lastName: {
         type: String,
         required: true
-    },
-    role: {
-        type: String,
-        enum: roleTypes,
-        default: 'free'
     },
     lastTimeOnline: {
         type: Date,

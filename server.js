@@ -12,6 +12,7 @@ const errorHandler = require("./src/handlers/error");
 
 //* Routes
 const userRoute = require('./src/routes/user');
+const tagsRoute = require('./src/routes/tags');
 
 
 const PORT = process.env.PORT || 5000;
@@ -25,7 +26,8 @@ app.use(passport.initialize());
 require('./src/config/passport')(passport)
 
 
-app.use("/api/user", userRoute);
+app.use('/api/user', userRoute);
+app.use('/api/tags', tagsRoute);
 app.use(errorHandler);
 
 

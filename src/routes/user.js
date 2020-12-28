@@ -26,7 +26,6 @@ router.post('/sign-in',
     }
 );
 
-
 /* 
 *   @route POST api/user/sign-up
 *   @desc sign-up into the system
@@ -45,6 +44,13 @@ router.post('/sign-up',
         }
     }
 );
+
+/* 
+*   @route POST api/user/edit
+*   @desc sign-up into the system
+*   @access 
+*/
+router.post('/edit', userCtrl.update);
 
 module.exports = router;
 
