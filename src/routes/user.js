@@ -1,3 +1,4 @@
+// @ts-nocheck
 const passport = require('passport');
 const { Router } = require('express');
 // validation tools
@@ -31,10 +32,13 @@ router.post('/sign-in',
 *   @route POST api/user/sign-up
 *   @desc sign-up into the system
 *   @access public
-!   need to add regex for password
 */
 router.post('/sign-up',
-    [check('email').isEmail().withMessage('Please Enter a Valid Email.')],
+    [check('email').isEmail().withMessage('Please Enter a Valid Email.'),
+    check('password')
+        .matches(passwordRegex)
+        .withMessage('password should contain at least : 8 characters, 1 capital letter, 1 number and 1 special character')
+    ],
     (req, res) => {
         var errors = validationResult(req);
         if (!errors.isEmpty()) {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 /* regular expression for PW validation :
  * should contain at least one digit
@@ -22,6 +23,8 @@ const cleanEmptyKeys = (object) => {
     }
     return obj;
 }
+
+
 
 module.exports = {
     passwordRegex,

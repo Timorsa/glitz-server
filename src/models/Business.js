@@ -13,6 +13,11 @@ const schema = {
         type: String,
         required: true
     },
+    image: {
+        type: String,
+        require: true,
+        default: 'https://i.pinimg.com/originals/de/5b/00/de5b00ba1ae193acfdbd95b6fba50d87.gif'
+    },
     password: {
         type: String,
         require: true

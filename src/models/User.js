@@ -22,6 +22,10 @@ const schema = {
     lastTimeOnline: {
         type: Date,
         default: Date.now()
+    },
+    image: {
+        type: String,
+        default: 'https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png'
     }
 }
 

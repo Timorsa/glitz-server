@@ -5,7 +5,7 @@ const { model, Schema } = require('mongoose');
 const schema = {
     writer: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'business',
         required: true
     },
     editorJS: {
@@ -13,8 +13,8 @@ const schema = {
             type: Date,
             default: Date.now()
         },
-        blocks: [{ type: string, data: object }],
-        version: string
+        blocks: [{ type: String, data: Object }],
+        version: String
     },
     tags: {
         type: [String],
@@ -22,7 +22,7 @@ const schema = {
     },
 }
 
-const post_schema = new Schema(schema, { collation: 'posts' });
+const post_schema = new Schema(schema, { collection: 'posts' });
 
 const Post = model('post', post_schema);
 

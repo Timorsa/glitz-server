@@ -1,8 +1,10 @@
+// @ts-nocheck
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 // model 
-const User = require('../models/User')
+const User = require('../models/User');
+const Business = require('../models/Business');
 
 // hashing key  
 const SECRET_KEY = require('../config/keys').secretKey
@@ -104,6 +106,26 @@ module.exports = {
                 $set: { ...cleanEmptyKeys(req.body) }
             });
             res.status(200).json(updatedUser);
+        } catch (err) {
+            next({
+                status: 500,
+                message: err
+            })
+        }
+    },
+    async subscribeToBusiness(req, res, next) {
+        try {
+            if (req.user) {
+                const business = await Business.updateOne({ _id: req.params.businessId }, {
+                    $push: { costumers: req.user._id }
+                })
+                res.status(200).json(business);
+            } else {
+                next({
+                    status: 403,
+                    message: 'could find signed in user'
+                })
+            }
         } catch (err) {
             next({
                 status: 500,

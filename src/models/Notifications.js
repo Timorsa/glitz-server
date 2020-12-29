@@ -13,7 +13,7 @@ const schema = {
     },
 }
 
-const notification_schema = new Schema(schema, { collation: 'notifications' });
+const notification_schema = new Schema(schema, { collection: 'notifications' });
 
 const Notification = model('notification', notification_schema);
 
