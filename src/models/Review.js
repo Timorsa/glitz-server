@@ -10,8 +10,8 @@ const schema = {
     },
     rating: {
         type: Number,
-        min: 0,
-        max: 0
+        min: 1,
+        max: 5
     },
     business: {
         type: Schema.Types.ObjectId,
