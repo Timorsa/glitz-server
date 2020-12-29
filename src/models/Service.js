@@ -13,6 +13,9 @@ const schema = {
         type: String,
         default: 'https://www.muralswallpaper.com/app/uploads/purple-bright-gradient-wallpaper-mural-Plain-820x532.jpg'
     },
+    tags: {
+        type: [String]
+    },
     description: {
         type: String,
         required: true

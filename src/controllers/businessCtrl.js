@@ -138,9 +138,26 @@ module.exports = {
         }
 
     },
-    // to do
-    async getBusinessesByTag(req, res, next) {
-
+    async getBusinessesByTags(req, res, next) {
+        try {
+            let businesses = await Business.find({ tags: { $in: req.body.tags } })
+            businesses = businesses.map(business => ({
+                _id: business._id,
+                name: business.name,
+                phone: business.phone,
+                email: business.email,
+                image: business.image,
+                address: business.address,
+                location: business.location,
+                description: business.description,
+            }))
+            res.status(200).json(businesses);
+        } catch (err) {
+            next({
+                status: 500,
+                message: 'Oops! something went wrong, failed to sign-in'
+            })
+        }
     },
     // to do
     async getBusinessesByLocation(req, res, next) {
