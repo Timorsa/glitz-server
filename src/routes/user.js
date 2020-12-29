@@ -1,12 +1,13 @@
 const passport = require('passport');
 const { Router } = require('express');
-const router = Router();
-
 // validation tools
 const { check, validationResult } = require('express-validator');
 
-// controllers
 const userCtrl = require('../controllers/userCtrl');
+const { passwordRegex } = require('../utils/general');
+
+const router = Router();
+
 
 /* 
 *   @route POST api/user/sign-in

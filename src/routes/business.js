@@ -10,7 +10,8 @@
 *   add post
 *   remove post
 *   get costumers
-*
-*
-*
+*   addtag
+*   removeTag
+*   get reviews
+*   getBusiness
 */
