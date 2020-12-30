@@ -17,13 +17,13 @@ const router = Router();
 */
 router.post('/sign-in',
     [check('email').isEmail().withMessage('Please Enter a Valid Email.')],
-    (req, res) => {
+    (req, res, next) => {
         var errors = validationResult(req);
         if (!errors.isEmpty()) {
             var errorResponse = errors.array({ onlyFirstError: true });
-            res.status(422).json({ error: errorResponse[0].msg });
+            res.status(422).json({ message: errorResponse[0].msg });
         } else {
-            userCtrl.signIn(req, res); // go to next
+            userCtrl.signIn(req, res, next); // go to next
         }
     }
 );
@@ -39,23 +39,23 @@ router.post('/sign-up',
         .matches(passwordRegex)
         .withMessage('password should contain at least : 8 characters, 1 capital letter, 1 number and 1 special character')
     ],
-    (req, res) => {
+    (req, res, next) => {
         var errors = validationResult(req);
         if (!errors.isEmpty()) {
             var errorResponse = errors.array({ onlyFirstError: true });
-            res.status(422).json({ error: errorResponse[0].msg });
+            res.status(422).json({ message: errorResponse[0].msg });
         } else {
-            userCtrl.signUp(req, res); // go to next
+            userCtrl.signUp(req, res, next); // go to next
         }
     }
 );
 
 /* 
-*   @route POST api/user/edit
+*   @route PUT api/user/edit
 *   @desc sign-up into the system
 *   @access private(user)
 */
-router.post('/edit',
+router.put('/edit',
     [passport.authenticate("jwt", { session: false })],
     userCtrl.update);
 

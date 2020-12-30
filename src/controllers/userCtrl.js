@@ -54,6 +54,7 @@ module.exports = {
             });
         } catch (err) {
             // send error to general error handler
+            console.log(err);
             next({
                 status: 500,
                 message: 'Oops! something went wrong , failed to sign-up.',

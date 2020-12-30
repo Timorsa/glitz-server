@@ -11,7 +11,7 @@ const { cleanEmptyKeys } = require('../utils/general');
 
 module.exports = {
     async signUp(req, res, next) {
-        let { name, description, email, password, phone, address, location } = req.body;
+        let { name, description, email, password, phone, address, image, location } = req.body;
         email = email.toLowerCase();
         try {
             let business = await Business.findOne({ email });
@@ -58,6 +58,7 @@ module.exports = {
                 res.status(200).json({ token });
             });
         } catch (err) {
+            console.log(err)
             next({
                 status: 500,
                 message: 'Oops! something went wrong , failed to sign-up.',

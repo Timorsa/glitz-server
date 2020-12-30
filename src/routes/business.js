@@ -18,13 +18,13 @@ const router = Router();
 */
 router.post('/sign-in',
     [check('email').isEmail().withMessage('Please Enter a Valid Email.')],
-    (req, res) => {
+    (req, res, next) => {
         var errors = validationResult(req);
         if (!errors.isEmpty()) {
             var errorResponse = errors.array({ onlyFirstError: true });
             res.status(422).json({ error: errorResponse[0].msg });
         } else {
-            businessCtrl.signIn(req, res); // go to next
+            businessCtrl.signIn(req, res, next); // go to next
         }
     }
 );
@@ -40,13 +40,13 @@ router.post('/sign-up',
         .matches(passwordRegex)
         .withMessage('password should contain at least : 8 characters, 1 capital letter, 1 number and 1 special character')
     ],
-    (req, res) => {
+    (req, res, next) => {
         var errors = validationResult(req);
         if (!errors.isEmpty()) {
             var errorResponse = errors.array({ onlyFirstError: true });
             res.status(422).json({ error: errorResponse[0].msg });
         } else {
-            businessCtrl.signUp(req, res); // go to next
+            businessCtrl.signUp(req, res, next); // go to next
         }
     }
 );
