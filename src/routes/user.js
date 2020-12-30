@@ -53,9 +53,11 @@ router.post('/sign-up',
 /* 
 *   @route POST api/user/edit
 *   @desc sign-up into the system
-*   @access 
+*   @access private(user)
 */
-router.post('/edit', userCtrl.update);
+router.post('/edit',
+    passport.authenticate("jwt", { session: false }),
+    userCtrl.update);
 
 module.exports = router;
 
