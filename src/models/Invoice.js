@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 
-//
+// ! not implemented yet
 // ! discount in in % units
 // ! need to check regarding mails and payment ver
 const schema = {

@@ -4,7 +4,7 @@ const { model, Schema } = require('mongoose');
 const schema = {
     sender: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'business',
         required: true
     },
     content: {

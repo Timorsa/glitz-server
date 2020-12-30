@@ -1,6 +1,6 @@
-// ? Blog post from EditorJS and it's data
 const { model, Schema } = require('mongoose');
 
+// ! not implemented yet
 // definition 
 const schema = {
     sender: {
@@ -18,7 +18,7 @@ const schema = {
     }
 }
 
-const message_schema = new Schema(schema, { collation: 'messages' });
+const message_schema = new Schema(schema, { collection: 'messages' });
 
 const Message = model('message', message_schema);
 
