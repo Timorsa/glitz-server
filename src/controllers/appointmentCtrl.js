@@ -47,7 +47,7 @@ module.exports = {
                     day,
                     month,
                     timeStart: time,
-                    timeEnd: calculateDurationTime(time, duration);
+                    timeEnd: calculateDurationTime(time, duration)
                 })
 
                 if (isAvailable) {
@@ -117,12 +117,12 @@ module.exports = {
                 }]);
                 if (appointments)
                     res.status(200).json(appointments)
-                else res.status(500).
+                else res.status(500).json({ message: 'could not find appointment' })
 
             } else next({
-                    status: 402,
-                    message: 'login to get appointments'
-                })
+                status: 402,
+                message: 'login to get appointments'
+            })
 
         } catch (err) {
             next({

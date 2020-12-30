@@ -9,7 +9,7 @@ const schema = {
         max: 31
     },
     month: {
-        type: number,
+        type: Number,
         min: 1,
         max: 12
     },
@@ -26,9 +26,9 @@ const schema = {
         }
     },
     // in minutes
-    duration:{
+    duration: {
         type: Number
-    }, 
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'user',

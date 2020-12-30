@@ -16,6 +16,7 @@ const userRoute = require('./src/routes/user');
 const tagsRoute = require('./src/routes/tags');
 const reviewRoute = require('./src/routes/review');
 const businessRoute = require('./src/routes/business');
+const appointmentRoute = require('./src/routes/appointments');
 
 
 const PORT = process.env.PORT || 5000;
@@ -33,6 +34,7 @@ app.use('/api/user', userRoute);
 app.use('/api/tags', tagsRoute);
 app.use('/api/review', reviewRoute);
 app.use('/api/business', businessRoute);
+app.use('/api/appointment', appointmentRoute);
 app.use(errorHandler);
 
 
