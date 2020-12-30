@@ -56,7 +56,7 @@ router.post('/sign-up',
 *   @access private(user)
 */
 router.post('/edit',
-    passport.authenticate("jwt", { session: false }),
+    [passport.authenticate("jwt", { session: false })],
     userCtrl.update);
 
 module.exports = router;

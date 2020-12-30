@@ -1,3 +1,4 @@
+// @ts-nocheck
 require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
@@ -13,6 +14,8 @@ const errorHandler = require("./src/handlers/error");
 //* Routes
 const userRoute = require('./src/routes/user');
 const tagsRoute = require('./src/routes/tags');
+const reviewRoute = require('./src/routes/review');
+const businessRoute = require('./src/routes/business');
 
 
 const PORT = process.env.PORT || 5000;
@@ -28,6 +31,8 @@ require('./src/config/passport')(passport)
 
 app.use('/api/user', userRoute);
 app.use('/api/tags', tagsRoute);
+app.use('/api/review', reviewRoute);
+app.use('/api/business', businessRoute);
 app.use(errorHandler);
 
 

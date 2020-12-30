@@ -1,6 +1,6 @@
 // @ts-nocheck
 const passport = require('passport');
-const { Route } = require('express');
+const { Router } = require('express');
 
 // validation tools
 const { check, validationResult } = require('express-validator');
@@ -71,35 +71,35 @@ router.get('/:businessId', businessCtrl.getBusiness);
 *   @desc returns business by tags
 *   @access public
 */
-router.post('/tags', businessCtrl.getBusinessByTag);
+router.post('/tags', businessCtrl.getBusinessesByTags);
 
 /* 
 *   @route PUT api/business/
 *   @desc update user info
 *   @access private(business)
 */
-router.put('/', passport.authenticate("jwt", { session: false }), businessCtrl.update)
+router.put('/', [passport.authenticate("jwt", { session: false })], businessCtrl.update)
 
 /* 
 *   @route POST api/business/services/add
 *   @desc add service offering to business
 *   @access private(business)
 */
-router.post('/services/add', passport.authenticate("jwt", { session: false }), businessCtrl.addService);
+router.post('/services/add', [passport.authenticate("jwt", { session: false })], businessCtrl.addService);
 
 /* 
 *   @route POST api/business/services/edit/:serviceId
 *   @desc edit existing service offered 
 *   @access private(business)
 */
-router.post('/services/edit/:serviceId', passport.authenticate("jwt", { session: false }), businessCtrl.addService);
+router.post('/services/edit/:serviceId', [passport.authenticate("jwt", { session: false })], businessCtrl.addService);
 
 /* 
 *   @route DELETE api/business/services/delete/:serviceId
 *   @desc delete existing service offering
 *   @access private(business)
 */
-router.delete('/services/delete/:serviceId', passport.authenticate("jwt", { session: false }), businessCtrl.removeService);
+router.delete('/services/delete/:serviceId', [passport.authenticate("jwt", { session: false })], businessCtrl.removeService);
 
 /* 
 *   @route GET api/business/:businessId/costumers
@@ -121,3 +121,6 @@ router.put('/tag/add', businessCtrl.addTag);
 *   @access private(business)
 */
 router.put('/tag/remove', businessCtrl.removeTag);
+
+
+module.exports = router;
