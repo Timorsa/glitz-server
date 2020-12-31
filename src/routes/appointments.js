@@ -28,10 +28,17 @@ router.get('/business/:businessId', appointmentCtrl.getAppointmentsByBusiness);
 router.get('/user', [passport.authenticate("jwt", { session: false })], appointmentCtrl.getAppointmentsByUser);
 
 /*
-*   @route DELETE api/appointment/delete
+*   @route PUT api/appointment/:appointmentId
+*   @desc edit appointment
+*   @access private(user)
+*/
+router.put('/:appointmentId', [passport.authenticate("jwt", { session: false })], appointmentCtrl.editAppointment);
+
+/*
+*   @route DELETE api/appointment/delete/:appointmentId
 *   @desc delete user appointments
 *   @access private(user)
 */
-router.delete('/user', [passport.authenticate("jwt", { session: false })], appointmentCtrl.deleteAppointment);
+router.delete('/delete/:appointmentId', [passport.authenticate("jwt", { session: false })], appointmentCtrl.deleteAppointment);
 
 module.exports = router;

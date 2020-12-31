@@ -7,8 +7,8 @@
 // delete appointment 
 // @ts-nocheck
 const Appointment = require('../models/Appointment');
-const Business = require('../models/Business');
-const User = require('../models/User');
+// const Business = require('../models/Business');
+// const User = require('../models/User');
 
 const { calculateDurationTime } = require('../utils/calculations');
 const { cleanEmptyKeys } = require('../utils/general');
@@ -80,13 +80,7 @@ module.exports = {
     },
     async getAppointmentsByBusiness(req, res, next) {
         try {
-            const appointments = await Appointment.find({ business: BusinessId }).populate({
-                path: 'user', populate: [
-                    { path: 'firstName' },
-                    { path: 'lastName' },
-                    { path: 'phone' },
-                    { path: 'image' }]
-            });
+            const appointments = await Appointment.find({ business: req.params.businessId }).populate('user', '-password');
             if (appointments) {
                 res.status(200).json(appointments);
             } else {
@@ -96,6 +90,8 @@ module.exports = {
                 })
             }
         } catch (err) {
+            console.log(err)
+
             next({
                 status: 500,
                 message: 'Oops! something went wrong'
@@ -105,16 +101,7 @@ module.exports = {
     async getAppointmentsByUser(req, res, next) {
         try {
             if (req.user) {
-                const appointments = await Appointment.find({ user: req.user._id }).populate([{ path: 'service' }, {
-                    path: 'business', populate: [
-                        { path: 'name' },
-                        { path: 'description' },
-                        { path: 'email' },
-                        { path: 'image' },
-                        { path: 'phone' },
-                        { path: 'address' }
-                    ]
-                }]);
+                const appointments = await Appointment.find({ user: req.user._id }).populate('business', '-password').populate('service')
                 if (appointments)
                     res.status(200).json(appointments)
                 else res.status(500).json({ message: 'could not find appointment' })
@@ -135,7 +122,7 @@ module.exports = {
         try {
             if (req.user) {
                 const appointment = await Appointment.findOne({ _id: req.params.appointmentId });
-                if (req.user._id === appointment.user) {
+                if (req.user._id.toString() === appointment.user.toString()) {
                     const editedAppointment = await Appointment.updateOne({ _id: req.params.appointmentId }, { $set: { ...cleanEmptyKeys(req.body) } });
                     res.status(200).json(editedAppointment)
                 } else next({
@@ -158,8 +145,8 @@ module.exports = {
     async deleteAppointment(req, res, next) {
         try {
             if (req.user) {
-                const appointment = await Appointment.findOne({ _Id: req.params.appointmentId });
-                if (req.user._id === appointment.user) {
+                const appointment = await Appointment.findOne({ _id: req.params.appointmentId });
+                if (req.user._id.toString() === appointment.user.toString()) {
                     const deletedAppointment = await Appointment.deleteOne({ _id: req.params.appointmentId });
                     res.status(200).json(deletedAppointment)
                 } else next({
