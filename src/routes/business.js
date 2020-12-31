@@ -109,18 +109,18 @@ router.delete('/services/delete/:serviceId', [passport.authenticate("jwt", { ses
 router.get('/costumers/:businessId/costumers', businessCtrl.getCostumers);
 
 /* 
-*   @route PUT api/business/tag/add
+*   @route POST api/business/tag/add
 *   @desc add tag to business
 *   @access private(business)
 */
-router.put('/tag/add', businessCtrl.addTag);
+router.put('/tag/add', [passport.authenticate("jwt", { session: false })], businessCtrl.addTag);
 
 /* 
 *   @route PUT api/business/tag/remove
 *   @desc remove tag from business
 *   @access private(business)
 */
-router.put('/tag/remove', businessCtrl.removeTag);
+router.put('/tag/remove', [passport.authenticate("jwt", { session: false })], businessCtrl.removeTag);
 
 
 module.exports = router;

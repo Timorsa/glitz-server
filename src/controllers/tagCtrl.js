@@ -17,8 +17,8 @@ module.exports = {
     // @ts-ignore
     async createTag(req, res, next) {
         try {
-            const doc = Tag.findOrCreate({ name: req.name })
-            res.status(200).json(doc);
+            const doc = Tag.findOrCreate({ name: req.body.name })
+            res.status(200).json({ message: 'new tag created' });
         } catch (err) {
             next({
                 status: 500,

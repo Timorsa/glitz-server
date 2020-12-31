@@ -25,6 +25,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(express.urlencoded({ extended: true }));
 
 // passport config 
 require('./src/config/passport')(passport)

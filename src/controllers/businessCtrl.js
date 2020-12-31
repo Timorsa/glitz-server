@@ -106,10 +106,9 @@ module.exports = {
         }
     },
     async getBusiness(req, res, next) {
-        const { businessId } = req.params._id;
         try {
-            let business = await await Business.findById(businessId).populate([
-                { path: 'services' },
+            let business = await await Business.findById(req.params.businessId).populate([
+                // { path: 'services' },
                 { path: 'posts' },
                 { path: 'reviews' },
                 {
@@ -123,7 +122,7 @@ module.exports = {
             ]);
             if (business) {
                 const cleanBusiness = business;
-                delete cleanBusiness[password];
+                delete cleanBusiness['password'];
                 res.status(200).json(cleanBusiness);
             } else {
                 next({
@@ -132,6 +131,7 @@ module.exports = {
                 })
             }
         } catch (err) {
+            console.log(err);
             next({
                 status: 500,
                 message: 'Oops! something went wrong, failed to sign-in'
@@ -151,6 +151,7 @@ module.exports = {
                 address: business.address,
                 location: business.location,
                 description: business.description,
+                services: business.services
             }))
             res.status(200).json(businesses);
         } catch (err) {
@@ -186,7 +187,7 @@ module.exports = {
     },
     async addService(req, res, next) {
         try {
-            const business = await Business.findById(req.business._id);
+            const business = await Business.findById(req.user._id);
             if (business) {
                 const service = new Service({ business: business._id, ...cleanEmptyKeys(req.body) })
                 await service.save()
@@ -203,6 +204,7 @@ module.exports = {
             })
 
         } catch (err) {
+            console.log(err);
             next({
                 status: 500,
                 message: 'Oops! something went wrong, failed to sign-in'
@@ -212,8 +214,8 @@ module.exports = {
     },
     async editService(req, res, next) {
         try {
-            if (req.business && req.params.serviceId) {
-                if (req.business._id === req.params.serviceId) {
+            if (req.user && req.params.serviceId) {
+                if (req.user._id === req.params.serviceId) {
                     const service = await Service.updateOne(
                         { _id: req.params.serviceId },
                         { $set: { ...cleanEmptyKeys(req.body) } });
@@ -235,21 +237,17 @@ module.exports = {
     },
     async removeService(req, res, next) {
         try {
-            if (req.business && req.params.serviceId) {
-                if (req.business._id === req.params.serviceId) {
-                    const service = await Service.deleteOne({ _id: req.params.serviceId });
-                    const business = await Business.findById(req.business._id);
-                    business.services = business.services.filter(srv => srv !== req.params.serviceId);
-                    await business.save();
-                    await business.populate({ path: 'services' });
-                    res.status(200).json({
-                        deletedService: service,
-                        businessServices: business.services
-                    });
-                } else next({
-                    status: 403,
-                    message: 'un authorized request you cannot change service that is not yours'
-                })
+            if (req.user && req.params.serviceId) {
+                const service = await Service.deleteOne({ _id: req.params.serviceId });
+                const business = await Business.findById(req.user._id);
+                business.services = business.services.filter(srv => srv !== req.params.serviceId);
+                await business.save();
+                await business.populate({ path: 'services' });
+                res.status(200).json({
+                    deletedService: service,
+                    businessServices: business.services
+                });
+
             } else next({
                 status: 402,
                 message: `non valid request`
@@ -306,15 +304,18 @@ module.exports = {
     },
     async addTag(req, res, next) {
         try {
-            if (req.business) {
-                await Tag.findOrCreate(req.body.name);
-                const business = await Business.updateOne({ _id: req.business._id }, { $push: { tags: req.body.tag } });
+            if (req.user) {
+                // await Tag.findOrCreate(req.body.tag);
+                const business = await Business.updateOne({ _id: req.user._id }, { $push: { tags: req.body.tag } });
                 res.status(200).json(business);
-            } else next({
-                status: 403,
-                message: 'unauthorized to add tag to this business'
-            })
+            } else {
+                next({
+                    status: 403,
+                    message: 'unauthorized to add tag to this business'
+                })
+            }
         } catch (err) {
+            console.log(err)
             next({
                 status: 500,
                 message: 'Oops! something went wrong, failed to sign-in'
@@ -323,8 +324,9 @@ module.exports = {
     },
     async removeTag(req, res, next) {
         try {
-            if (req.business) {
-                const business = await Business.updateOne({ _id: req.business._id }, { $pull: { tags: req.body.tag } });
+            console.log(req.user)
+            if (req.user) {
+                const business = await Business.updateOne({ _id: req.user._id }, { $pull: { tags: req.body.tag } });
                 res.status(200).json(business);
             } else next({
                 status: 403,

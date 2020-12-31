@@ -22,6 +22,7 @@ config.secretOrKey = keys.secretKey;
 module.exports = passport => {
     passport.use(
         new JwtStrategy(config, (jwt_payload, done) => {
+
             if (jwt_payload && jwt_payload.user && jwt_payload.user._id) {
                 User.findById(jwt_payload.user._id)
                     .then(user => {
@@ -36,7 +37,7 @@ module.exports = passport => {
                         } else {
                             done(null, false)   // did nor found user
                         }
-
+                        ``
 
                     })
                     .catch(err => console.log(err))

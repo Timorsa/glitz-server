@@ -1,5 +1,4 @@
 // @ts-nocheck
-const { default: e } = require('cors');
 const Review = require('../models/Review');
 
 module.exports = {
@@ -58,15 +57,22 @@ module.exports = {
     },
     async deleteReview(req, res, next) {
         try {
+            console.log(req.user)
             if (req.user) {
+                console.log('in if')
                 const review = await Review.findById({ _id: req.params.reviewId });
-                if (req.user._id === review.user) {
+                console.log('review', review)
+                console.log(req.user._id == review.user)
+                console.log(typeof req.user._id)
+                if (req.user._id == review.user) {
                     const deletedReview = await Review.DeleteOne({ _id: req.params.reviewId });
                     res.status(200).json(deletedReview)
-                } else next({
-                    status: 403,
-                    message: `you can delete only reviews that were made by you`
-                })
+                } else {
+                    next({
+                        status: 403,
+                        message: `you can delete only reviews that were made by you`
+                    })
+                }
             } next({
                 status: 403,
                 message: 'no signed in user'
