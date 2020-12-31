@@ -8,6 +8,9 @@
     "start": "node server.js",
     "server": "nodemon server.js"
   },
+  "engines": {
+    "node": "12.18.3"
+  },
   "author": "Timor Safadi",
   "license": "ISC",
   "dependencies": {
