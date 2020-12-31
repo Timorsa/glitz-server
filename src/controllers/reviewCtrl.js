@@ -57,15 +57,10 @@ module.exports = {
     },
     async deleteReview(req, res, next) {
         try {
-            console.log(req.user)
             if (req.user) {
-                console.log('in if')
                 const review = await Review.findById({ _id: req.params.reviewId });
-                console.log('review', review)
-                console.log(req.user._id == review.user)
-                console.log(typeof req.user._id)
-                if (req.user._id == review.user) {
-                    const deletedReview = await Review.DeleteOne({ _id: req.params.reviewId });
+                if (req.user._id.toString() == review.user) {
+                    const deletedReview = await Review.deleteOne({ _id: req.params.reviewId });
                     res.status(200).json(deletedReview)
                 } else {
                     next({
@@ -78,6 +73,7 @@ module.exports = {
                 message: 'no signed in user'
             })
         } catch (err) {
+            console.log(err)
             next({
                 status: 500,
                 message: 'Oops! something went wrong , failed to sign-up.',
